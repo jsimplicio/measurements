@@ -38,6 +38,7 @@ select {
   -webkit-appearance: none;
   position: relative;
   background: #8CDD81;
+  outline: none;
 }
 
 select:focus {
@@ -68,10 +69,11 @@ select {
   transform-origin: 50% 0;
 }
 
-input:focus {
+input:focus,
+select:focus {
   outline: none;
-  -webkit-box-shadow: 0 0 0 8px #96C8A2;
-  box-shadow: 0 0 0 8px #96C8A2;
+  -webkit-box-shadow: 0 0 0 4px #96C8A2;
+  box-shadow: 0 0 0 4px #96C8A2;
 }
 
 .input-select {
