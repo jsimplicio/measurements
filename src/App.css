@@ -12,6 +12,7 @@ html {
 
 body {
   font-size: 1rem;
+  padding: 64px;
 }
 
 h1,
@@ -36,8 +37,10 @@ select {
 
 select {
   -webkit-appearance: none;
+  color: #337147;
   position: relative;
   background: #8CDD81;
+  font-weight: bold;
   outline: none;
 }
 
@@ -83,7 +86,7 @@ select:focus {
 
 .container {
   margin: 0 auto;
-  padding: 32px;
+  padding: 16px;
   text-align: center;
   width: 350px;
 }

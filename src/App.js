@@ -1,12 +1,26 @@
 import React from 'react';
 import './App.css';
 
-function toCups(Ounces) {
-  return Ounces / 8;
+const scales = {
+  1: 'Cups',
+  2: 'Gallons',
+  3: 'Quarts',
+  4: 'Pints',
+  5: 'Ounces',
+  6: 'Tablespoons',
+  7: 'Teaspoons'
+};
+
+function toCups(unit) {
+  return unit / 8;
 }
 
-function toOunces(Cups) {
-  return Cups * 8;
+function toTablespoons(unit) {
+  return unit / 8;
+}
+
+function toOunces(unit) {
+  return unit * 8;
 }
 
 function tryConvert(value, convert) {
@@ -40,24 +54,25 @@ class UnitInput extends React.Component {
 
   render() {
     const value = this.props.value;
+    const scale = scales[Math.floor(Math.random() * (7 - 0) + 1)];
 
     return (
       <div className="container">
         <form id="units-conversion">
           <div className= "form-group">
-            <label><h3>Enter measurement in {this.state.content}</h3></label>
+            <label><h3>Unit in {scale}</h3></label>
             <div className="input-select">
               <input className="form-control text-center" id="focusedInputed" type="text" value={value}
                 onChange={this.handleChange} />
               <div className="select">
-                <select name="values" id="measurements" onChange={this.handleUnitChange} form="units-conversion">
+                <select name="values" id="measurements" onChange={this.handleUnitChange} value={scale} form="units-conversion">
                   <option value="Cups">Cups</option>
-                  <option value="Gallon">Gallon</option>
-                  <option value="Quart">Quart</option>
-                  <option value="Pint">Pint</option>
-                  <option value="Ounce">Ounce</option>
-                  <option value="Tablespoon">Tablespoon</option>
-                  <option value="Teaspoon">Teaspoon</option>
+                  <option value="Gallons">Gallons</option>
+                  <option value="Quarts">Quarts</option>
+                  <option value="Pints">Pints</option>
+                  <option value="Ounces">Ounces</option>
+                  <option value="Tablespoons">Tablespoons</option>
+                  <option value="Teaspoons">Teaspoons</option>
                 </select>
               </div>
             </div>
@@ -87,18 +102,19 @@ class Calculator extends React.Component {
   render() {
     const scale = this.state.scale;
     const value = this.state.value;
-    const Cups = scale === 'o' ? tryConvert(value, toCups) : value;
-    const Ounces = scale === 'c' ? tryConvert(value, toOunces) : value;
+    const cups = scale === 'o' ? tryConvert(value, toCups) : value;
+    const ounces = scale === 'c' ? tryConvert(value, toOunces) : value;
 
     return (
       <div className="text-center container-fluid">
         <UnitInput
           scale="c"
-          value={Cups}
+          value={cups}
           onChange={this.handleCupsChange} />
+        <div class="container"><h3>=</h3></div>
         <UnitInput
           scale="o"
-          value={Ounces}
+          value={ounces}
           onChange={this.handleOuncesChange} />
       </div>
     );
