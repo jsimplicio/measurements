@@ -3,7 +3,12 @@ import './App.css';
 
 const scaleNames = {
   c: 'Cups',
-  f: 'Ounces'
+  o: 'Ounces',
+  g: 'Gallons',
+  q: 'Quarts',
+  p: 'Pints',
+  tbsp: 'Tablespoons',
+  tsp: 'Teaspoons'
 };
 
 function toCups(Ounces) {
@@ -28,22 +33,44 @@ class UnitInput extends React.Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
+    this.handleUnitChange = this.handleUnitChange.bind(this);
+    this.state = {
+      content: 'Cups'
+    }
   }
 
   handleChange(e) {
     this.props.onChange(e.target.value);
   }
 
+  handleUnitChange(e) {
+    const content = e.target.value;
+    this.setState({ content: content })
+  }
+
   render() {
     const value = this.props.value;
-    const scale = this.props.scale;
+
     return (
       <div className="container">
-        <form>
+        <form id="units-conversion">
           <div className= "form-group">
-            <lable><h3>Enter measurement in {scaleNames[scale]} </h3></lable>
-            <input className="form-control text-center" id="focusedInputed" type="text" value={value}
-              onChange={this.handleChange} />
+            <label><h3>Enter measurement in {this.state.content}</h3></label>
+            <div className="input-select">
+              <input className="form-control text-center" id="focusedInputed" type="text" value={value}
+                onChange={this.handleChange} />
+              <div className="select">
+                <select name="values" id="measurements" onChange={this.handleUnitChange} form="units-conversion">
+                  <option value="cups">Cups</option>
+                  <option value="gallon">Galloon</option>
+                  <option value="quart">Quart</option>
+                  <option value="pint">Pint</option>
+                  <option value="ounce">Ounce</option>
+                  <option value="tablespoon">Tablespoon</option>
+                  <option value="teaspoon">Teaspoon</option>
+                </select>
+              </div>
+            </div>
           </div>
         </form>
       </div>
@@ -64,13 +91,13 @@ class Calculator extends React.Component {
   }
 
   handleOuncesChange(value) {
-    this.setState({scale: 'f', value});
+    this.setState({scale: 'o', value});
   }
 
   render() {
     const scale = this.state.scale;
     const value = this.state.value;
-    const Cups = scale === 'f' ? tryConvert(value, toCups) : value;
+    const Cups = scale === 'o' ? tryConvert(value, toCups) : value;
     const Ounces = scale === 'c' ? tryConvert(value, toOunces) : value;
 
     return (
@@ -80,7 +107,7 @@ class Calculator extends React.Component {
           value={Cups}
           onChange={this.handleCupsChange} />
         <UnitInput
-          scale="f"
+          scale="o"
           value={Ounces}
           onChange={this.handleOuncesChange} />
       </div>

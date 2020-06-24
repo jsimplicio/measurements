@@ -6,6 +6,7 @@
 
 html {
   font-size: 18px;
+  font-family: sans-serif;
   background: #BDFCC9;
 }
 
@@ -20,6 +21,64 @@ h3 {
   margin-bottom: 16px;
 }
 
+input[type="text"] {
+  -webkit-appearance: none;
+}
+
+input,
+select {
+  border: 2px solid #337147;
+  border-radius: 4px;
+  font-size: 1rem;
+  padding: 8px;
+  text-align: center;
+}
+
+select {
+  -webkit-appearance: none;
+  position: relative;
+  background: #8CDD81;
+}
+
+select:focus {
+  -webkit-appearance: none;
+}
+
+select {
+  width: 100%;
+  position: relative;
+}
+
+.select {
+  margin-top: 16px;
+  position: relative;
+}
+
+.select:after {
+  position: absolute;
+  display: block;
+  content: '';
+  width: 10px; 
+  height: 10px;
+  top: 45%; 
+  right: 25px;
+  border-bottom: 2px solid #337147;
+  border-right: 2px solid #337147;
+  transform: rotate(45deg) translateY(-50%);
+  transform-origin: 50% 0;
+}
+
+input:focus {
+  outline: none;
+  -webkit-box-shadow: 0 0 0 8px #96C8A2;
+  box-shadow: 0 0 0 8px #96C8A2;
+}
+
+.input-select {
+  display: flex;
+  flex-direction: column;
+}
+
 .container {
   display: flex;  
   justify-content: center;
@@ -28,16 +87,3 @@ h3 {
   width: 100%;
 }
 
-input {
-  border: 1px solid #337147;
-  border-radius: 4px;
-  font-size: 1rem;
-  padding: 8px;
-  text-align: center;
-}
-
-input:focus {
-  outline: none;
-  -webkit-box-shadow: 0 0 0 8px #96C8A2;
-  box-shadow: 0 0 0 8px #96C8A2;
-}
