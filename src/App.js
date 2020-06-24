@@ -1,16 +1,6 @@
 import React from 'react';
 import './App.css';
 
-const scaleNames = {
-  c: 'Cups',
-  o: 'Ounces',
-  g: 'Gallons',
-  q: 'Quarts',
-  p: 'Pints',
-  tbsp: 'Tablespoons',
-  tsp: 'Teaspoons'
-};
-
 function toCups(Ounces) {
   return Ounces / 8;
 }
@@ -61,13 +51,13 @@ class UnitInput extends React.Component {
                 onChange={this.handleChange} />
               <div className="select">
                 <select name="values" id="measurements" onChange={this.handleUnitChange} form="units-conversion">
-                  <option value="cups">Cups</option>
-                  <option value="gallon">Galloon</option>
-                  <option value="quart">Quart</option>
-                  <option value="pint">Pint</option>
-                  <option value="ounce">Ounce</option>
-                  <option value="tablespoon">Tablespoon</option>
-                  <option value="teaspoon">Teaspoon</option>
+                  <option value="Cups">Cups</option>
+                  <option value="Gallon">Gallon</option>
+                  <option value="Quart">Quart</option>
+                  <option value="Pint">Pint</option>
+                  <option value="Ounce">Ounce</option>
+                  <option value="Tablespoon">Tablespoon</option>
+                  <option value="Teaspoon">Teaspoon</option>
                 </select>
               </div>
             </div>

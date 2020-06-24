@@ -80,10 +80,9 @@ input:focus {
 }
 
 .container {
-  display: flex;  
-  justify-content: center;
+  margin: 0 auto;
   padding: 32px;
   text-align: center;
-  width: 100%;
+  width: 350px;
 }
 
