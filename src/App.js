@@ -34,7 +34,7 @@ class UnitInput extends React.Component {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.handleUnitChange = this.handleUnitChange.bind(this);
-    this.state = { unit: this.props.unit };
+    this.state = { unit: this.props.unit, selected: this.props.selected };
   }
 
   handleChange(e) {
@@ -48,7 +48,7 @@ class UnitInput extends React.Component {
   render() {
     const value = this.props.value;
     const unit = this.state.unit;
-    const selected = this.props.unit;
+    const selected = this.state.selected;
 
     return (
       <div className="container">
@@ -61,7 +61,7 @@ class UnitInput extends React.Component {
               <div className="select">
                 <select name="values" id="measurements" onChange={this.handleUnitChange} form="units-conversion">
                   <option value={scales[1]}>{scales[1]}</option>
-                  <option value={scales[2]}>{scales[2]}</option>
+                  <option selected={selected} value={scales[2]}>{scales[2]}</option>
                   <option value={scales[3]}>{scales[3]}</option>
                   <option value={scales[4]}>{scales[4]}</option>
                   <option value={scales[5]}>{scales[5]}</option>
@@ -102,7 +102,7 @@ class Calculator extends React.Component {
           onChange={this.handleChange} />
         <div className="container"><h3>=</h3></div>
         <UnitInput
-          selected='selected'
+          selected
           unit={scales[2]}
           value={ounces}
           onChange={this.handleChange} />
