@@ -11,14 +11,6 @@ const scales = {
   7: 'Teaspoons'
 };
 
-function toCups(unit) {
-  return unit / 8;
-}
-
-function toOunces(unit) {
-  return unit * 8;
-}
-
 function tryConvert(value, convert) {
   const input = parseFloat(value);
   if (Number.isNaN(input)) {
@@ -59,12 +51,12 @@ class UnitInput extends React.Component {
               <input className="form-control text-center" id="focusedInputed" type="text" value={value}
                 onChange={this.handleChange} />
               <div className="select">
-                <select name="values" id="measurements" onChange={this.handleUnitChange} form="units-conversion">
+                <select name="values" id="measurements" value={this.state.value} onChange={this.handleUnitChange} form="units-conversion">
                   <option value={scales[1]}>{scales[1]}</option>
-                  <option selected={selected} value={scales[2]}>{scales[2]}</option>
+                  <option value={scales[2]}>{scales[2]}</option>
                   <option value={scales[3]}>{scales[3]}</option>
                   <option value={scales[4]}>{scales[4]}</option>
-                  <option value={scales[5]}>{scales[5]}</option>
+                  <option selected={selected} value={scales[5]}>{scales[5]}</option>
                   <option value={scales[6]}>{scales[6]}</option>
                   <option value={scales[7]}>{scales[7]}</option>
                 </select>
@@ -80,32 +72,88 @@ class UnitInput extends React.Component {
 class Calculator extends React.Component {
   constructor(props) {
     super(props);
-    this.handleChange = this.handleChange.bind(this);
-    this.state = {value: '', scale: 'cups'};
+    this.handleChangeOne = this.handleChangeOne.bind(this);
+    this.handleChangeTwo = this.handleChangeTwo.bind(this);
+  //  this.handleCupsChange = this.handleCupsChange.bind(this);
+ //   this.handleOuncesChange = this.handleOuncesChange.bind(this);
+  //  this.handleQuartsChange = this.handleQuartsChange.bind(this);
+    this.state = {value: '', unit: ''};
   }
 
-  handleChange(value) {
-   this.setState({value});
+
+  toCups = (value) => {
+    if (this.state.unit === 'ounces') {
+      return value / 8;
+    } else {
+      return value;
+    }
+  }
+
+  toOunces = (value) => {
+    if (this.state.unit === 'cups') {
+      return value * 8;
+    } else {
+      return value;
+    }
+  }
+
+  toQuarts = (value) => {
+    if (this.state.unit === 'cups') {
+      return value / 4;
+    }
+  }
+
+  cups() {
+    if (this.state.unit === 'ounces') {
+      return tryConvert(this.state.value, this.toCups);
+    } else {
+      return this.state.value
+    }
+  }
+
+  quarts() {
+    if (this.state.unit === 'cups') {
+      return tryConvert(this.state.value, this.toQuarts);
+    } else {
+      return this.state.value
+    }
+  }
+
+  ounces() {
+    if (this.state.unit === 'cups') {
+      return tryConvert(this.state.value, this.toOunces);
+    } else {
+      return this.state.value
+    }
+  }
+
+  handleChangeOne(e) {
+    this.setState({unit: 'cups', value: e});
+  }
+
+  handleChangeTwo(e) {
+    this.setState({unit: 'ounces', value: e});
   }
 
   render() {
-    const scale = this.state.scale;
-    const value = this.state.value;
-    const cups = scale === 'ounces' ? tryConvert(value, toCups) : value;
-    const ounces = scale === 'cups' ? tryConvert(value, toOunces) : value;
+    const cups = this.cups();
+    const ounces = this.ounces();
 
     return (
-      <div className="text-center container-fluid">
+      <div>
         <UnitInput
+          scale='cups'
           value={cups}
           unit={scales[1]}
-          onChange={this.handleChange} />
-        <div className="container"><h3>=</h3></div>
+          onChange={this.handleChangeOne} 
+        />
+
         <UnitInput
           selected
-          unit={scales[2]}
+          scale='ounces'
           value={ounces}
-          onChange={this.handleChange} />
+          unit={scales[5]}
+          onChange={this.handleChangeTwo} />
       </div>
     );
   }
