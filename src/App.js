@@ -1,15 +1,7 @@
 import React from 'react';
 import './App.css';
 
-const scales = {
-  1: 'Cups',
-  2: 'Gallons',
-  3: 'Quarts',
-  4: 'Pints',
-  5: 'Ounces',
-  6: 'Tablespoons',
-  7: 'Teaspoons'
-};
+const scales = ['Cups','Gallons','Quarts','Pints','Ounces','Tablespoons','Teaspoons'];
 
 function tryConvert(value, convert) {
   const input = parseFloat(value);
@@ -21,68 +13,36 @@ function tryConvert(value, convert) {
   return rounded.toString();
 }
 
-class UnitInput extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleUnitChange = this.handleUnitChange.bind(this);
-    this.state = { unit: this.props.unit, selected: this.props.selected };
-  }
-
-  handleChange(e) {
-    this.props.onChange(e.target.value);
-  }
-
-  handleUnitChange(e) {
-    this.setState({ unit: e.target.value })
-  }
-  
-  render() {
-    const value = this.props.value;
-    const unit = this.state.unit;
-    const selected = this.state.selected;
-
-    return (
-      <div className="container">
-        <form id="units-conversion">
-          <div className= "form-group">
-            <label><h3>Unit in {unit}</h3></label>
-            <div className="input-select">
-              <input className="form-control text-center" id="focusedInputed" type="text" value={value}
-                onChange={this.handleChange} />
-              <div className="select">
-                <select name="values" id="measurements" value={this.state.value} onChange={this.handleUnitChange} form="units-conversion">
-                  <option value={scales[1]}>{scales[1]}</option>
-                  <option value={scales[2]}>{scales[2]}</option>
-                  <option value={scales[3]}>{scales[3]}</option>
-                  <option value={scales[4]}>{scales[4]}</option>
-                  <option selected={selected} value={scales[5]}>{scales[5]}</option>
-                  <option value={scales[6]}>{scales[6]}</option>
-                  <option value={scales[7]}>{scales[7]}</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-    );
-  }
-}
-
 class Calculator extends React.Component {
   constructor(props) {
     super(props);
-    this.handleChangeOne = this.handleChangeOne.bind(this);
-    this.handleChangeTwo = this.handleChangeTwo.bind(this);
+    this.changeBaseUnit = this.changeBaseUnit.bind(this);
+    this.changeConvertToUnit = this.changeConvertToUnit.bind(this);
   //  this.handleCupsChange = this.handleCupsChange.bind(this);
  //   this.handleOuncesChange = this.handleOuncesChange.bind(this);
   //  this.handleQuartsChange = this.handleQuartsChange.bind(this);
-    this.state = {value: '', unit: ''};
+    this.state = {value: '', baseUnit: 'Cups', convertToUnit: 'Ounces'};
+  }
+
+  changeBaseUnit(e) {
+    this.setState({ baseUnit: e.target.value});
+  }
+
+  changeConvertToUnit(e) {
+    this.setState({
+      convertToUnit: e.target.value
+    });
+  }
+
+  changeValue(e) {
+    this.setState({
+      value: e.target.value
+    });
   }
 
 
   toCups = (value) => {
-    if (this.state.unit === 'ounces') {
+    if (this.state.baseUnit === 'Ounces') {
       return value / 8;
     } else {
       return value;
@@ -90,7 +50,7 @@ class Calculator extends React.Component {
   }
 
   toOunces = (value) => {
-    if (this.state.unit === 'cups') {
+    if (this.state.baseUnit === 'Cups') {
       return value * 8;
     } else {
       return value;
@@ -98,13 +58,13 @@ class Calculator extends React.Component {
   }
 
   toQuarts = (value) => {
-    if (this.state.unit === 'cups') {
+    if (this.state.baseUnit === 'Cups') {
       return value / 4;
     }
   }
 
   cups() {
-    if (this.state.unit === 'ounces') {
+    if (this.state.baseUnit === 'Ounces') {
       return tryConvert(this.state.value, this.toCups);
     } else {
       return this.state.value
@@ -112,7 +72,7 @@ class Calculator extends React.Component {
   }
 
   quarts() {
-    if (this.state.unit === 'cups') {
+    if (this.state.baseUnit === 'Cups') {
       return tryConvert(this.state.value, this.toQuarts);
     } else {
       return this.state.value
@@ -120,40 +80,49 @@ class Calculator extends React.Component {
   }
 
   ounces() {
-    if (this.state.unit === 'cups') {
+    if (this.state.baseUnit === 'Cups') {
       return tryConvert(this.state.value, this.toOunces);
     } else {
       return this.state.value
     }
   }
 
-  handleChangeOne(e) {
-    this.setState({unit: 'cups', value: e});
-  }
-
-  handleChangeTwo(e) {
-    this.setState({unit: 'ounces', value: e});
-  }
-
   render() {
-    const cups = this.cups();
-    const ounces = this.ounces();
+    const {value,baseUnit,convertToUnit} = this.state;
+    const scaleChoice = scales.map(scale =>
+      <option key={scale} value={scale}> {scale} </option>      
+    );
 
     return (
-      <div>
-        <UnitInput
-          scale='cups'
-          value={cups}
-          unit={scales[1]}
-          onChange={this.handleChangeOne} 
-        />
-
-        <UnitInput
-          selected
-          scale='ounces'
-          value={ounces}
-          unit={scales[5]}
-          onChange={this.handleChangeTwo} />
+      <div className="container">
+        <form id="units-conversion">
+          <div className= "form-group">
+            <label><h3>Unit in {baseUnit}</h3></label>
+            <div className="input-select">
+              <input className="form-control text-center" id="focusedInputed" type="text" value={value}
+                onChange={this.handleChange} />
+              <div className="select">
+                <select  value={baseUnit} onChange={this.changeBaseUnit}>
+                  {scaleChoice}
+                  <option>{baseUnit}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div className= "form-group">
+            <label><h3>Unit in {convertToUnit}</h3></label>
+            <div className="input-select">
+              <input className="form-control text-center" id="focusedInputed" type="text" value={value}
+                onChange={this.handleChange} />
+              <div className="select">
+                <select  value={convertToUnit} onChange={this.changeConvertToUnit}>
+                  {scaleChoice}
+                  <option>{convertToUnit}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </form>
       </div>
     );
   }

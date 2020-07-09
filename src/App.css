@@ -93,3 +93,7 @@ select:focus {
   width: 100%;
 }
 
+
+.form-group {
+  margin-bottom: 2em;
+}
